@@ -1,289 +1,419 @@
-/* LIVE AUCTION SYSTEM - BROWSE PAGE JS */
+/* BROWSE PAGE - API INTEGRATED */
 
-// Extended sample data
-const ALL_AUCTIONS = [
-    ...window.SAMPLE_AUCTIONS || [],
-    { id: 13, title: 'Apple Watch Ultra 2', price: 650, bids: 19, watchers: 87, endTime: '2025-12-14T10:00:00', image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&h=300&fit=crop', badges: ['new'], seller: 'gadget_world', rating: 4.8, category: 'electronics' },
-    { id: 14, title: 'Vintage Leica M6 Camera', price: 2200, bids: 31, watchers: 145, endTime: '2025-12-13T16:00:00', image: 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=400&h=300&fit=crop', badges: ['hot'], seller: 'camera_pro', rating: 5.0, category: 'electronics' },
-    { id: 15, title: 'Gucci Leather Handbag', price: 890, bids: 25, watchers: 198, endTime: '2025-12-12T20:00:00', image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&h=300&fit=crop', badges: [], seller: 'luxe_fashion', rating: 4.9, category: 'fashion' },
-    { id: 16, title: 'Pokemon Charizard 1st Edition', price: 4500, bids: 67, watchers: 456, endTime: '2025-12-15T12:00:00', image: 'https://images.unsplash.com/photo-1613771404784-3a5686aa2be3?w=400&h=300&fit=crop', badges: ['hot'], seller: 'card_collector', rating: 4.7, category: 'collectibles' },
-    { id: 17, title: 'Original Oil Painting Abstract', price: 1200, bids: 12, watchers: 56, endTime: '2025-12-16T18:00:00', image: 'https://images.unsplash.com/photo-1549887534-1541e9326642?w=400&h=300&fit=crop', badges: ['new'], seller: 'art_gallery', rating: 4.8, category: 'art' },
-    { id: 18, title: 'Diamond Engagement Ring 1ct', price: 3800, bids: 28, watchers: 89, endTime: '2025-12-14T14:00:00', image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400&h=300&fit=crop', badges: ['reserve'], seller: 'jewel_box', rating: 5.0, category: 'jewelry' },
-    { id: 19, title: 'Harley Davidson Sportster 2019', price: 8900, bids: 15, watchers: 234, endTime: '2025-12-18T10:00:00', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop', badges: [], seller: 'moto_deals', rating: 4.6, category: 'vehicles' },
-    { id: 20, title: 'Vintage Omega Seamaster', price: 2100, bids: 34, watchers: 178, endTime: '2025-12-13T22:00:00', image: 'https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?w=400&h=300&fit=crop', badges: ['hot'], seller: 'time_keeper', rating: 4.9, category: 'jewelry' }
-];
+// State
+const BrowseState = {
+    auctions: [],
+    filters: {
+        category: null,
+        search: '',
+        min_price: null,
+        max_price: null,
+        condition: null,
+        sort: 'end_time_asc'
+    },
+    pagination: {
+        page: 1,
+        limit: 12,
+        total: 0,
+        pages: 0
+    },
+    viewMode: 'grid',
+    isLoading: false
+};
 
-let currentView = 'grid';
-let currentSort = 'ending';
-let currentFilters = { categories: [], priceMin: null, priceMax: null, status: [], condition: [], rating: null, shipping: [] };
-
+// DOM Ready
 document.addEventListener('DOMContentLoaded', () => {
     initBrowsePage();
 });
 
-function initBrowsePage() {
-    renderAuctions();
-    initFilterToggles();
+async function initBrowsePage() {
+    parseUrlParams();
+    initFilters();
     initViewToggle();
-    initSortSelect();
+    initSorting();
     initMobileFilters();
-    initFilterInputs();
+    await loadAuctions();
+    initCountdowns();
+
+    // Connect WebSocket if logged in
+    if (typeof auctionSocket !== 'undefined' && TokenManager?.isLoggedIn()) {
+        auctionSocket.connect();
+    }
 }
 
+// Parse URL parameters
+function parseUrlParams() {
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.has('category')) BrowseState.filters.category = params.get('category');
+    if (params.has('search')) BrowseState.filters.search = params.get('search');
+    if (params.has('q')) BrowseState.filters.search = params.get('q');
+    if (params.has('min_price')) BrowseState.filters.min_price = params.get('min_price');
+    if (params.has('max_price')) BrowseState.filters.max_price = params.get('max_price');
+    if (params.has('condition')) BrowseState.filters.condition = params.get('condition');
+    if (params.has('sort')) BrowseState.filters.sort = params.get('sort');
+
+    // Update search input
+    const searchInput = document.getElementById('browseSearch');
+    if (searchInput && BrowseState.filters.search) {
+        searchInput.value = BrowseState.filters.search;
+    }
+}
+
+// Load auctions from API
+async function loadAuctions() {
+    const container = document.getElementById('auctionResults');
+    if (!container) return;
+
+    BrowseState.isLoading = true;
+    container.innerHTML = '<div class="loading-spinner">Loading auctions...</div>';
+
+    // Build API params
+    const params = {
+        status: 'active',
+        page: BrowseState.pagination.page,
+        limit: BrowseState.pagination.limit,
+        sort: BrowseState.filters.sort
+    };
+
+    if (BrowseState.filters.category) params.category = BrowseState.filters.category;
+    if (BrowseState.filters.search) params.search = BrowseState.filters.search;
+    if (BrowseState.filters.min_price) params.min_price = BrowseState.filters.min_price;
+    if (BrowseState.filters.max_price) params.max_price = BrowseState.filters.max_price;
+    if (BrowseState.filters.condition) params.condition = BrowseState.filters.condition;
+
+    try {
+        const result = await API.Auctions.list(params);
+
+        if (result.success) {
+            BrowseState.auctions = result.data.auctions;
+            BrowseState.pagination = { ...BrowseState.pagination, ...result.data.pagination };
+            renderAuctions();
+            renderPagination();
+            updateResultsCount();
+        } else {
+            container.innerHTML = '<div class="no-results">Unable to load auctions. Please try again.</div>';
+        }
+    } catch (error) {
+        console.error('Load auctions error:', error);
+        container.innerHTML = '<div class="no-results">Error loading auctions.</div>';
+    }
+
+    BrowseState.isLoading = false;
+}
+
+// Render auctions
 function renderAuctions() {
-    const grid = document.getElementById('auctionGrid');
-    if (!grid) return;
+    const container = document.getElementById('auctionResults');
+    if (!container) return;
 
-    let auctions = filterAuctions(ALL_AUCTIONS);
-    auctions = sortAuctions(auctions, currentSort);
+    if (BrowseState.auctions.length === 0) {
+        container.innerHTML = `
+      <div class="no-results">
+        <h3>No auctions found</h3>
+        <p>Try adjusting your filters or search terms.</p>
+        <button class="btn btn-primary" onclick="clearFilters()">Clear Filters</button>
+      </div>
+    `;
+        return;
+    }
 
-    grid.className = `auction-grid ${currentView === 'list' ? 'list-view' : ''}`;
-    grid.innerHTML = auctions.map(renderAuctionCard).join('');
-    attachCardListeners(grid);
-    updateResultsCount(auctions.length);
+    container.className = `auction-${BrowseState.viewMode}`;
+    container.innerHTML = BrowseState.auctions.map(auction => renderAuctionCard(auction)).join('');
+    attachCardListeners(container);
 }
 
+// Render auction card
 function renderAuctionCard(auction) {
-    const isWatched = window.AppState?.watchlist?.includes(auction.id);
-    const timeRemaining = getTimeRemaining(auction.endTime);
-    const isEndingSoon = timeRemaining.total < 3600000;
+    const id = auction.auction_id || auction.id;
+    const price = auction.current_bid || auction.starting_price;
+    const bids = auction.bid_count || 0;
+    const image = auction.thumbnail || 'https://via.placeholder.com/400x300';
+    const endTime = auction.end_time;
+
+    const timeRemaining = getTimeRemaining(endTime);
+    const isEndingSoon = timeRemaining.total < 3600000 && timeRemaining.total > 0;
+
+    const badges = [];
+    if (isEndingSoon) badges.push('ending');
+    if (bids > 20) badges.push('hot');
+    if (auction.free_shipping) badges.push('free-shipping');
+
+    if (BrowseState.viewMode === 'list') {
+        return `
+      <div class="auction-list-item" data-id="${id}">
+        <img src="${image}" alt="${auction.title}" class="auction-list-image" loading="lazy">
+        <div class="auction-list-content">
+          <h3 class="auction-list-title">${auction.title}</h3>
+          <div class="auction-list-meta">
+            <span>🔨 ${bids} bids</span>
+            ${auction.seller_username ? `<span>👤 ${auction.seller_username}</span>` : ''}
+            ${auction.condition_type ? `<span>📦 ${formatCondition(auction.condition_type)}</span>` : ''}
+          </div>
+          <div class="auction-list-timer ${isEndingSoon ? 'ending-soon' : ''}" data-end="${endTime}">
+            ⏰ <span class="timer-text">${formatTimeRemaining(timeRemaining)}</span>
+          </div>
+        </div>
+        <div class="auction-list-actions">
+          <div class="auction-list-price">$${parseFloat(price).toLocaleString()}</div>
+          <a href="auction.html?id=${id}" class="btn btn-orange btn-sm">Bid Now</a>
+        </div>
+      </div>
+    `;
+    }
 
     return `
-    <div class="auction-card" data-id="${auction.id}">
+    <div class="auction-card" data-id="${id}">
       <div class="auction-card-image">
-        <img src="${auction.image}" alt="${auction.title}" loading="lazy">
+        <img src="${image}" alt="${auction.title}" loading="lazy">
         <div class="auction-card-badges">
-          ${(auction.badges || []).map(b => `<span class="badge badge-${b}">${getBadgeLabel(b)}</span>`).join('')}
+          ${badges.map(b => `<span class="badge badge-${b}">${getBadgeLabel(b)}</span>`).join('')}
         </div>
-        <button class="auction-card-watch ${isWatched ? 'active' : ''}" data-id="${auction.id}">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="${isWatched ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
+        <button class="auction-card-watch" data-id="${id}" aria-label="Watch">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
           </svg>
         </button>
       </div>
       <div class="auction-card-content">
         <h3 class="auction-card-title">${auction.title}</h3>
-        <div class="auction-card-price">$${auction.price.toLocaleString()}</div>
-        <div class="auction-card-timer ${isEndingSoon ? 'ending-soon' : ''}" data-end="${auction.endTime}">
+        <div class="auction-card-price">$${parseFloat(price).toLocaleString()}</div>
+        <div class="auction-card-timer ${isEndingSoon ? 'ending-soon' : ''}" data-end="${endTime}">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
           </svg>
           <span class="timer-text">${formatTimeRemaining(timeRemaining)}</span>
         </div>
         <div class="auction-card-meta">
-          <span>🔨 ${auction.bids} bids</span>
-          <span>👁️ ${auction.watchers}</span>
-          <span>⭐ ${auction.rating}</span>
+          <span>🔨 ${bids} bids</span>
         </div>
       </div>
     </div>
   `;
 }
 
-function attachCardListeners(grid) {
-    grid.querySelectorAll('.auction-card-watch').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            const id = parseInt(btn.dataset.id);
-            toggleWatchlist(id, btn);
-        });
-    });
-
-    grid.querySelectorAll('.auction-card').forEach(card => {
-        card.addEventListener('click', () => {
+// Attach card click listeners
+function attachCardListeners(container) {
+    container.querySelectorAll('.auction-card, .auction-list-item').forEach(card => {
+        card.addEventListener('click', (e) => {
+            if (e.target.closest('.auction-card-watch')) return;
             window.location.href = `auction.html?id=${card.dataset.id}`;
         });
     });
+
+    container.querySelectorAll('.auction-card-watch').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const id = parseInt(btn.dataset.id);
+            await toggleWatchlist(id, btn);
+        });
+    });
 }
 
-function toggleWatchlist(id, btn) {
-    if (!window.AppState) return;
-    const idx = window.AppState.watchlist.indexOf(id);
-    if (idx > -1) {
-        window.AppState.watchlist.splice(idx, 1);
-        btn.classList.remove('active');
-        btn.querySelector('svg').setAttribute('fill', 'none');
-        if (window.showToast) showToast('Removed from watchlist', 'info');
-    } else {
-        window.AppState.watchlist.push(id);
-        btn.classList.add('active');
-        btn.querySelector('svg').setAttribute('fill', 'currentColor');
-        if (window.showToast) showToast('Added to watchlist', 'success');
+// Toggle watchlist
+async function toggleWatchlist(id, btn) {
+    if (typeof TokenManager === 'undefined' || !TokenManager.isLoggedIn()) {
+        showToast('Please login to use watchlist', 'warning');
+        return;
     }
-}
 
-function filterAuctions(auctions) {
-    return auctions.filter(a => {
-        if (currentFilters.priceMin && a.price < currentFilters.priceMin) return false;
-        if (currentFilters.priceMax && a.price > currentFilters.priceMax) return false;
-        if (currentFilters.categories.length && !currentFilters.categories.includes(a.category)) return false;
-        return true;
-    });
-}
+    const isActive = btn.classList.contains('active');
 
-function sortAuctions(auctions, sortBy) {
-    const sorted = [...auctions];
-    switch (sortBy) {
-        case 'ending': return sorted.sort((a, b) => new Date(a.endTime) - new Date(b.endTime));
-        case 'newest': return sorted.sort((a, b) => new Date(b.endTime) - new Date(a.endTime));
-        case 'price-asc': return sorted.sort((a, b) => a.price - b.price);
-        case 'price-desc': return sorted.sort((a, b) => b.price - a.price);
-        case 'bids': return sorted.sort((a, b) => b.bids - a.bids);
-        default: return sorted;
-    }
-}
-
-function updateResultsCount(count) {
-    const el = document.querySelector('.results-count');
-    if (el) el.innerHTML = `Showing <strong>1-${Math.min(20, count)}</strong> of <strong>${count}</strong> auctions`;
-}
-
-// Filter Toggles
-function initFilterToggles() {
-    document.querySelectorAll('.filter-toggle').forEach(toggle => {
-        toggle.addEventListener('click', () => {
-            toggle.classList.toggle('active');
-            const content = toggle.nextElementSibling;
-            if (content) content.classList.toggle('active');
-        });
-    });
-}
-
-// View Toggle
-function initViewToggle() {
-    document.querySelectorAll('.view-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentView = btn.dataset.view;
-            renderAuctions();
-        });
-    });
-}
-
-// Sort Select
-function initSortSelect() {
-    const select = document.getElementById('sortSelect');
-    if (select) {
-        select.addEventListener('change', () => {
-            currentSort = select.value;
-            renderAuctions();
-        });
-    }
-}
-
-// Mobile Filters
-function initMobileFilters() {
-    const btn = document.getElementById('mobileFilterBtn');
-    const overlay = document.getElementById('filterOverlay');
-    const closeBtn = document.getElementById('closeFilterOverlay');
-    const applyBtn = document.getElementById('applyMobileFilters');
-
-    if (btn && overlay) {
-        btn.addEventListener('click', () => overlay.classList.add('active'));
-        closeBtn?.addEventListener('click', () => overlay.classList.remove('active'));
-        applyBtn?.addEventListener('click', () => { overlay.classList.remove('active'); renderAuctions(); });
-        overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('active'); });
-    }
-}
-
-// Filter Inputs
-function initFilterInputs() {
-    // Category checkboxes
-    document.querySelectorAll('.filter-checkbox input[type="checkbox"]').forEach(cb => {
-        cb.addEventListener('change', () => {
-            currentFilters.categories = Array.from(document.querySelectorAll('.filter-checkbox input[value]:checked'))
-                .map(c => c.value);
-            renderAuctions();
-            updateActiveFilters();
-        });
-    });
-
-    // Price presets
-    document.querySelectorAll('.price-preset').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.price-preset').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentFilters.priceMin = btn.dataset.min ? parseInt(btn.dataset.min) : null;
-            currentFilters.priceMax = btn.dataset.max ? parseInt(btn.dataset.max) : null;
-            document.getElementById('priceMin').value = currentFilters.priceMin || '';
-            document.getElementById('priceMax').value = currentFilters.priceMax || '';
-            renderAuctions();
-            updateActiveFilters();
-        });
-    });
-
-    // Price inputs
-    ['priceMin', 'priceMax'].forEach(id => {
-        const input = document.getElementById(id);
-        if (input) {
-            input.addEventListener('change', () => {
-                currentFilters[id] = input.value ? parseInt(input.value) : null;
-                renderAuctions();
-                updateActiveFilters();
-            });
+    if (isActive) {
+        const result = await API.Users.removeFromWatchlist(id);
+        if (result.success) {
+            btn.classList.remove('active');
+            btn.querySelector('svg').setAttribute('fill', 'none');
+            showToast('Removed from watchlist', 'info');
         }
+    } else {
+        const result = await API.Users.addToWatchlist(id);
+        if (result.success) {
+            btn.classList.add('active');
+            btn.querySelector('svg').setAttribute('fill', 'currentColor');
+            showToast('Added to watchlist', 'success');
+        }
+    }
+}
+
+// Filters
+function initFilters() {
+    // Category checkboxes
+    document.querySelectorAll('.filter-category input[type="checkbox"]').forEach(cb => {
+        cb.addEventListener('change', () => {
+            if (cb.checked) {
+                BrowseState.filters.category = cb.value;
+                document.querySelectorAll('.filter-category input[type="checkbox"]').forEach(other => {
+                    if (other !== cb) other.checked = false;
+                });
+            } else {
+                BrowseState.filters.category = null;
+            }
+            BrowseState.pagination.page = 1;
+            loadAuctions();
+        });
     });
 
-    // Clear all
-    document.getElementById('clearFilters')?.addEventListener('click', clearAllFilters);
-    document.getElementById('clearMobileFilters')?.addEventListener('click', clearAllFilters);
-}
+    // Condition
+    document.querySelectorAll('.filter-condition input[type="checkbox"]').forEach(cb => {
+        cb.addEventListener('change', () => {
+            if (cb.checked) {
+                BrowseState.filters.condition = cb.value;
+            } else {
+                BrowseState.filters.condition = null;
+            }
+            BrowseState.pagination.page = 1;
+            loadAuctions();
+        });
+    });
 
-function clearAllFilters() {
-    currentFilters = { categories: [], priceMin: null, priceMax: null, status: [], condition: [], rating: null, shipping: [] };
-    document.querySelectorAll('.filter-checkbox input, .filter-radio input').forEach(i => i.checked = false);
-    document.querySelectorAll('.price-preset').forEach(b => b.classList.remove('active'));
-    document.getElementById('priceMin').value = '';
-    document.getElementById('priceMax').value = '';
-    renderAuctions();
-    updateActiveFilters();
-}
+    // Price range
+    const minPrice = document.getElementById('minPrice');
+    const maxPrice = document.getElementById('maxPrice');
+    const applyPrice = document.getElementById('applyPriceFilter');
 
-function updateActiveFilters() {
-    const container = document.getElementById('activeFilters');
-    if (!container) return;
-
-    const tags = [];
-    currentFilters.categories.forEach(c => tags.push({ label: c, type: 'category', value: c }));
-    if (currentFilters.priceMin || currentFilters.priceMax) {
-        const label = currentFilters.priceMax ? `$${currentFilters.priceMin || 0} - $${currentFilters.priceMax}` : `$${currentFilters.priceMin}+`;
-        tags.push({ label, type: 'price' });
+    if (applyPrice) {
+        applyPrice.addEventListener('click', () => {
+            BrowseState.filters.min_price = minPrice?.value || null;
+            BrowseState.filters.max_price = maxPrice?.value || null;
+            BrowseState.pagination.page = 1;
+            loadAuctions();
+        });
     }
 
-    container.innerHTML = tags.map(t => `
-    <span class="filter-tag">${t.label}<button data-type="${t.type}" data-value="${t.value || ''}">✕</button></span>
-  `).join('');
-
-    container.querySelectorAll('button').forEach(btn => {
-        btn.addEventListener('click', () => {
-            if (btn.dataset.type === 'category') {
-                const cb = document.querySelector(`.filter-checkbox input[value="${btn.dataset.value}"]`);
-                if (cb) { cb.checked = false; cb.dispatchEvent(new Event('change')); }
-            } else if (btn.dataset.type === 'price') {
-                currentFilters.priceMin = null;
-                currentFilters.priceMax = null;
-                document.getElementById('priceMin').value = '';
-                document.getElementById('priceMax').value = '';
-                document.querySelectorAll('.price-preset').forEach(b => b.classList.remove('active'));
-                renderAuctions();
-                updateActiveFilters();
+    // Search
+    const searchInput = document.getElementById('browseSearch');
+    if (searchInput) {
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                BrowseState.filters.search = searchInput.value.trim();
+                BrowseState.pagination.page = 1;
+                loadAuctions();
             }
         });
+    }
+}
+
+// View toggle
+function initViewToggle() {
+    document.querySelectorAll('.view-toggle button').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.view-toggle button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            BrowseState.viewMode = btn.dataset.view;
+            renderAuctions();
+        });
     });
 }
 
-// Time helpers
+// Sorting
+function initSorting() {
+    const sortSelect = document.getElementById('sortSelect');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', () => {
+            BrowseState.filters.sort = sortSelect.value;
+            BrowseState.pagination.page = 1;
+            loadAuctions();
+        });
+    }
+}
+
+// Mobile filters
+function initMobileFilters() {
+    const filterBtn = document.getElementById('mobileFilterBtn');
+    const filterOverlay = document.getElementById('filterOverlay');
+    const closeBtn = filterOverlay?.querySelector('.filter-close');
+
+    if (filterBtn && filterOverlay) {
+        filterBtn.addEventListener('click', () => filterOverlay.classList.add('active'));
+        closeBtn?.addEventListener('click', () => filterOverlay.classList.remove('active'));
+        filterOverlay.addEventListener('click', (e) => {
+            if (e.target === filterOverlay) filterOverlay.classList.remove('active');
+        });
+    }
+}
+
+// Pagination
+function renderPagination() {
+    const container = document.getElementById('pagination');
+    if (!container) return;
+
+    const { page, pages } = BrowseState.pagination;
+
+    if (pages <= 1) {
+        container.innerHTML = '';
+        return;
+    }
+
+    let html = '';
+
+    // Previous
+    html += `<button class="btn btn-outline btn-sm" ${page === 1 ? 'disabled' : ''} onclick="goToPage(${page - 1})">← Prev</button>`;
+
+    // Page numbers
+    const start = Math.max(1, page - 2);
+    const end = Math.min(pages, page + 2);
+
+    if (start > 1) html += `<button class="btn btn-outline btn-sm" onclick="goToPage(1)">1</button>`;
+    if (start > 2) html += `<span class="pagination-ellipsis">...</span>`;
+
+    for (let i = start; i <= end; i++) {
+        html += `<button class="btn ${i === page ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="goToPage(${i})">${i}</button>`;
+    }
+
+    if (end < pages - 1) html += `<span class="pagination-ellipsis">...</span>`;
+    if (end < pages) html += `<button class="btn btn-outline btn-sm" onclick="goToPage(${pages})">${pages}</button>`;
+
+    // Next
+    html += `<button class="btn btn-outline btn-sm" ${page === pages ? 'disabled' : ''} onclick="goToPage(${page + 1})">Next →</button>`;
+
+    container.innerHTML = html;
+}
+
+function goToPage(page) {
+    BrowseState.pagination.page = page;
+    loadAuctions();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Results count
+function updateResultsCount() {
+    const countEl = document.getElementById('resultsCount');
+    if (countEl) {
+        countEl.textContent = `${BrowseState.pagination.total} results`;
+    }
+}
+
+// Clear filters
+function clearFilters() {
+    BrowseState.filters = { category: null, search: '', min_price: null, max_price: null, condition: null, sort: 'end_time_asc' };
+    BrowseState.pagination.page = 1;
+    document.querySelectorAll('.filter-section input[type="checkbox"]').forEach(cb => cb.checked = false);
+    document.querySelectorAll('.filter-section input[type="text"], .filter-section input[type="number"]').forEach(i => i.value = '');
+    loadAuctions();
+}
+
+// Countdowns
+function initCountdowns() {
+    setInterval(() => {
+        document.querySelectorAll('[data-end]').forEach(timer => {
+            const remaining = getTimeRemaining(timer.dataset.end);
+            const text = timer.querySelector('.timer-text') || timer;
+            text.textContent = formatTimeRemaining(remaining);
+            if (remaining.total < 3600000 && remaining.total > 0) timer.classList.add('ending-soon');
+        });
+    }, 1000);
+}
+
+// Helpers
 function getTimeRemaining(endTime) {
     const total = new Date(endTime) - new Date();
-    return {
-        total,
-        days: Math.floor(total / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((total / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((total / (1000 * 60)) % 60),
-        seconds: Math.floor((total / 1000) % 60)
-    };
+    const seconds = Math.floor((total / 1000) % 60);
+    const minutes = Math.floor((total / 1000 / 60) % 60);
+    const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
+    const days = Math.floor(total / (1000 * 60 * 60 * 24));
+    return { total, days, hours, minutes, seconds };
 }
 
 function formatTimeRemaining(time) {
@@ -294,16 +424,19 @@ function formatTimeRemaining(time) {
 }
 
 function getBadgeLabel(badge) {
-    const labels = { hot: '🔥 HOT', new: '✨ NEW', ending: '⏰ ENDING', reserve: '📌 RESERVE' };
+    const labels = { hot: '🔥 HOT', new: '✨ NEW', ending: '⏰ ENDING', 'free-shipping': '🚚 FREE' };
     return labels[badge] || badge.toUpperCase();
 }
 
-// Update timers
-setInterval(() => {
-    document.querySelectorAll('.auction-card-timer[data-end]').forEach(timer => {
-        const remaining = getTimeRemaining(timer.dataset.end);
-        const text = timer.querySelector('.timer-text');
-        if (text) text.textContent = formatTimeRemaining(remaining);
-        if (remaining.total < 3600000) timer.classList.add('ending-soon');
-    });
-}, 1000);
+function formatCondition(condition) {
+    const map = { new: 'New', like_new: 'Like New', used_excellent: 'Excellent', used_good: 'Good', used_fair: 'Fair', for_parts: 'Parts' };
+    return map[condition] || condition;
+}
+
+function showToast(message, type = 'info') {
+    if (typeof window.showToast === 'function') {
+        window.showToast(message, type);
+    } else {
+        alert(message);
+    }
+}
