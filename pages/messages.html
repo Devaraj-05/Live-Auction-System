@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages - AuctionHub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/components.css">
+    <link rel="stylesheet" href="../styles/responsive.css">
+    <link rel="stylesheet" href="../styles/pages/messages.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="header-nav">
+                <a href="../index.html" class="header-logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <rect width="32" height="32" rx="8" fill="#1A73E8" />
+                        <path d="M8 22L16 10L24 22H8Z" fill="white" />
+                    </svg>
+                    <span>AuctionHub</span>
+                </a>
+                <div class="header-actions">
+                    <a href="browse.html" class="header-link hide-mobile">Browse</a>
+                    <a href="dashboard.html" class="header-link hide-mobile">Dashboard</a>
+                    <div class="dropdown"><button class="header-user-btn"><img
+                                src="https://api.dicebear.com/7.x/avataaars/svg?seed=John" alt="User"
+                                class="avatar avatar-sm"></button></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="messages-page">
+        <div class="container">
+            <div class="messages-layout">
+                <!-- Conversations List -->
+                <aside class="conversations-list">
+                    <div class="conversations-header">
+                        <h2>Messages</h2>
+                        <button class="btn btn-primary btn-sm" id="composeBtn">+ New</button>
+                    </div>
+                    <div class="conversations-search">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="m21 21-4.35-4.35" />
+                        </svg>
+                        <input type="text" placeholder="Search messages...">
+                    </div>
+                    <div class="conversations-tabs">
+                        <button class="conv-tab active">All</button>
+                        <button class="conv-tab">Buying</button>
+                        <button class="conv-tab">Selling</button>
+                    </div>
+                    <div class="conversations">
+                        <div class="conversation-item active">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Camera" alt="" class="avatar">
+                            <div class="conversation-info">
+                                <div class="conversation-header"><strong>camera_collector</strong><span
+                                        class="conv-time">2m ago</span></div>
+                                <p class="conv-preview">Thanks for your interest! Yes, the camera is still...</p>
+                                <span class="conv-auction">Re: Vintage Canon AE-1 Camera</span>
+                            </div>
+                            <span class="unread-dot"></span>
+                        </div>
+                        <div class="conversation-item">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Watch" alt="" class="avatar">
+                            <div class="conversation-info">
+                                <div class="conversation-header"><strong>luxury_watches</strong><span
+                                        class="conv-time">1h ago</span></div>
+                                <p class="conv-preview">I've shipped the item via FedEx. Tracking...</p>
+                                <span class="conv-auction">Re: Rolex Submariner Watch</span>
+                            </div>
+                        </div>
+                        <div class="conversation-item">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Tech" alt="" class="avatar">
+                            <div class="conversation-info">
+                                <div class="conversation-header"><strong>tech_deals</strong><span class="conv-time">2d
+                                        ago</span></div>
+                                <p class="conv-preview">Great transaction, thank you!</p>
+                                <span class="conv-auction">Re: MacBook Pro M3</span>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Message Thread -->
+                <div class="message-thread">
+                    <div class="thread-header">
+                        <div class="thread-user">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Camera" alt="" class="avatar">
+                            <div>
+                                <strong>camera_collector</strong>
+                                <span class="user-rating">⭐ 4.9 (2,456 reviews)</span>
+                            </div>
+                        </div>
+                        <div class="thread-actions">
+                            <button class="btn btn-ghost btn-sm">⭐ Star</button>
+                            <button class="btn btn-ghost btn-sm">🗑️ Delete</button>
+                        </div>
+                    </div>
+
+                    <div class="thread-context">
+                        <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=60&h=45&fit=crop"
+                            alt="">
+                        <div>
+                            <strong>Vintage Canon AE-1 Camera</strong>
+                            <span class="text-muted">Current bid: $1,250 · Ends in 2d 14h</span>
+                        </div>
+                        <a href="auction.html" class="btn btn-sm btn-outline">View Auction</a>
+                    </div>
+
+                    <div class="messages-container">
+                        <div class="message-date">December 10, 2025</div>
+                        <div class="message received">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Camera" alt=""
+                                class="avatar avatar-sm">
+                            <div class="message-bubble">
+                                <p>Hi John! Thank you for your interest in the Canon AE-1. Yes, the camera is still
+                                    available and in excellent condition.</p>
+                                <span class="message-time">10:30 AM</span>
+                            </div>
+                        </div>
+                        <div class="message sent">
+                            <div class="message-bubble">
+                                <p>Great! Does it come with the original leather case as shown in the photos?</p>
+                                <span class="message-time">10:45 AM</span>
+                            </div>
+                        </div>
+                        <div class="message received">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Camera" alt=""
+                                class="avatar avatar-sm">
+                            <div class="message-bubble">
+                                <p>Yes, the original leather case is included! It has some minor wear but is in great
+                                    shape overall. I can send more photos if you'd like.</p>
+                                <span class="message-time">10:52 AM</span>
+                            </div>
+                        </div>
+                        <div class="message sent">
+                            <div class="message-bubble">
+                                <p>That would be great, thank you! Also, would you consider local pickup in NYC?</p>
+                                <span class="message-time">11:05 AM</span>
+                            </div>
+                        </div>
+                        <div class="message received">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Camera" alt=""
+                                class="avatar avatar-sm">
+                            <div class="message-bubble">
+                                <p>Absolutely! Local pickup is available in Manhattan. We can arrange a meeting point
+                                    after the auction ends if you win. 📸</p>
+                                <span class="message-time">11:12 AM</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="message-input">
+                        <button class="attach-btn">📎</button>
+                        <textarea placeholder="Type your message..." rows="1"></textarea>
+                        <button class="send-btn btn btn-primary">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Compose Modal -->
+    <div class="modal-backdrop" id="composeModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">New Message</h3>
+                <button class="modal-close" id="closeComposeModal">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">To</label>
+                    <input type="text" class="form-input" placeholder="Username or email">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Regarding Auction (Optional)</label>
+                    <select class="form-input form-select">
+                        <option value="">None</option>
+                        <option>Vintage Canon AE-1 Camera</option>
+                        <option>Rolex Submariner Watch</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Message</label>
+                    <textarea class="form-input" rows="5" placeholder="Type your message..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost">Cancel</button>
+                <button class="btn btn-primary">Send Message</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+    <script src="../scripts/app.js"></script>
+    <script src="../scripts/components.js"></script>
+    <script>
+        document.getElementById('composeBtn')?.addEventListener('click', () => {
+            document.getElementById('composeModal').classList.add('active');
+        });
+        document.getElementById('closeComposeModal')?.addEventListener('click', () => {
+            document.getElementById('composeModal').classList.remove('active');
+        });
+        document.querySelectorAll('.conversation-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.conversation-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+            });
+        });
+        document.querySelectorAll('.conv-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.conv-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+    </script>
+</body>
+
+</html>

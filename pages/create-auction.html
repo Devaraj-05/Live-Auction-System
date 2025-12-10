@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Auction - AuctionHub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/components.css">
+    <link rel="stylesheet" href="../styles/responsive.css">
+    <link rel="stylesheet" href="../styles/pages/create-auction.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="header-nav">
+                <a href="../index.html" class="header-logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <rect width="32" height="32" rx="8" fill="#1A73E8" />
+                        <path d="M8 22L16 10L24 22H8Z" fill="white" />
+                    </svg>
+                    <span>AuctionHub</span>
+                </a>
+                <div class="header-actions">
+                    <button class="btn btn-ghost" onclick="history.back()">Cancel</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="create-page">
+        <div class="container">
+            <div class="create-header">
+                <h1>Create New Auction</h1>
+                <p class="text-secondary">List your item for auction in a few simple steps</p>
+            </div>
+
+            <!-- Progress Steps -->
+            <div class="progress-steps">
+                <div class="step active" data-step="1"><span class="step-number">1</span><span
+                        class="step-label">Details</span></div>
+                <div class="step-line"></div>
+                <div class="step" data-step="2"><span class="step-number">2</span><span class="step-label">Media</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step" data-step="3"><span class="step-number">3</span><span
+                        class="step-label">Pricing</span></div>
+                <div class="step-line"></div>
+                <div class="step" data-step="4"><span class="step-number">4</span><span
+                        class="step-label">Shipping</span></div>
+                <div class="step-line"></div>
+                <div class="step" data-step="5"><span class="step-number">5</span><span class="step-label">Review</span>
+                </div>
+            </div>
+
+            <!-- Form Container -->
+            <form id="createAuctionForm" class="create-form">
+                <!-- Step 1: Details -->
+                <div class="form-step active" data-step="1">
+                    <div class="step-card">
+                        <h2>Item Details</h2>
+                        <div class="form-group">
+                            <label class="form-label">Category *</label>
+                            <select class="form-input form-select" required>
+                                <option value="">Select a category</option>
+                                <option value="electronics">Electronics</option>
+                                <option value="fashion">Fashion</option>
+                                <option value="collectibles">Collectibles</option>
+                                <option value="art">Art</option>
+                                <option value="jewelry">Jewelry</option>
+                                <option value="vehicles">Vehicles</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Title *</label>
+                            <input type="text" class="form-input" placeholder="Enter a descriptive title" maxlength="80"
+                                required>
+                            <span class="form-hint">0/80 characters</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Description *</label>
+                            <div class="rich-editor">
+                                <div class="editor-toolbar">
+                                    <button type="button" class="editor-btn" data-cmd="bold"><strong>B</strong></button>
+                                    <button type="button" class="editor-btn" data-cmd="italic"><em>I</em></button>
+                                    <button type="button" class="editor-btn" data-cmd="underline"><u>U</u></button>
+                                    <button type="button" class="editor-btn" data-cmd="insertUnorderedList">•
+                                        List</button>
+                                </div>
+                                <div class="editor-content" contenteditable="true"
+                                    placeholder="Describe your item in detail..."></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Condition *</label>
+                            <div class="condition-options">
+                                <label class="condition-card"><input type="radio" name="condition" value="new"
+                                        required><span class="condition-label">New</span><span
+                                        class="condition-desc">Unused, original packaging</span></label>
+                                <label class="condition-card"><input type="radio" name="condition"
+                                        value="like-new"><span class="condition-label">Like New</span><span
+                                        class="condition-desc">Minimal use, no signs of wear</span></label>
+                                <label class="condition-card"><input type="radio" name="condition"
+                                        value="excellent"><span class="condition-label">Excellent</span><span
+                                        class="condition-desc">Minor wear, fully functional</span></label>
+                                <label class="condition-card"><input type="radio" name="condition" value="good"><span
+                                        class="condition-label">Good</span><span class="condition-desc">Some wear, fully
+                                        functional</span></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2: Media -->
+                <div class="form-step" data-step="2">
+                    <div class="step-card">
+                        <h2>Photos & Videos</h2>
+                        <p class="text-secondary mb-4">Add up to 12 photos. The first image will be the cover.</p>
+                        <div class="upload-zone" id="uploadZone">
+                            <div class="upload-placeholder">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                    <circle cx="8.5" cy="8.5" r="1.5" />
+                                    <polyline points="21 15 16 10 5 21" />
+                                </svg>
+                                <p><strong>Drag & drop images here</strong></p>
+                                <p class="text-sm text-muted">or click to browse</p>
+                                <input type="file" id="imageInput" multiple accept="image/*" hidden>
+                            </div>
+                        </div>
+                        <div class="image-preview-grid" id="imagePreview"></div>
+                        <div class="form-hint mt-2">Accepted formats: JPG, PNG, WebP. Max 5MB each.</div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Pricing -->
+                <div class="form-step" data-step="3">
+                    <div class="step-card">
+                        <h2>Pricing & Duration</h2>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Starting Bid *</label>
+                                <div class="input-with-prefix">
+                                    <span class="input-prefix">$</span>
+                                    <input type="number" class="form-input" placeholder="0.00" min="1" step="0.01"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Reserve Price (Optional)</label>
+                                <div class="input-with-prefix">
+                                    <span class="input-prefix">$</span>
+                                    <input type="number" class="form-input" placeholder="0.00" min="1" step="0.01">
+                                </div>
+                                <span class="form-hint">Minimum price you'll accept</span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Buy Now Price (Optional)</label>
+                                <div class="input-with-prefix">
+                                    <span class="input-prefix">$</span>
+                                    <input type="number" class="form-input" placeholder="0.00" min="1" step="0.01">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Bid Increment</label>
+                                <select class="form-input form-select">
+                                    <option value="5">$5.00</option>
+                                    <option value="10">$10.00</option>
+                                    <option value="25" selected>$25.00</option>
+                                    <option value="50">$50.00</option>
+                                    <option value="100">$100.00</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Auction Duration *</label>
+                            <div class="duration-options">
+                                <label class="duration-card"><input type="radio" name="duration" value="1"><span>1
+                                        Day</span></label>
+                                <label class="duration-card"><input type="radio" name="duration" value="3"><span>3
+                                        Days</span></label>
+                                <label class="duration-card"><input type="radio" name="duration" value="7"
+                                        checked><span>7 Days</span></label>
+                                <label class="duration-card"><input type="radio" name="duration" value="10"><span>10
+                                        Days</span></label>
+                            </div>
+                        </div>
+                        <div class="fee-calculator">
+                            <h4>Estimated Fees</h4>
+                            <div class="fee-row"><span>Listing Fee</span><span>$0.35</span></div>
+                            <div class="fee-row"><span>Final Value Fee (10%)</span><span>Calculated on sale</span></div>
+                            <div class="fee-row total"><span>Total to Start</span><span>$0.35</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Shipping -->
+                <div class="form-step" data-step="4">
+                    <div class="step-card">
+                        <h2>Shipping & Location</h2>
+                        <div class="form-group">
+                            <label class="form-label">Item Location *</label>
+                            <div class="form-row">
+                                <input type="text" class="form-input" placeholder="City" required>
+                                <input type="text" class="form-input" placeholder="State/Province">
+                                <input type="text" class="form-input" placeholder="ZIP/Postal Code">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Shipping Options *</label>
+                            <div class="shipping-options">
+                                <label class="form-check"><input type="checkbox" checked> Domestic Shipping</label>
+                                <label class="form-check"><input type="checkbox"> International Shipping</label>
+                                <label class="form-check"><input type="checkbox"> Local Pickup</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Shipping Cost</label>
+                            <div class="shipping-cost-options">
+                                <label class="form-check"><input type="radio" name="shippingCost" value="free"> Free
+                                    Shipping</label>
+                                <label class="form-check"><input type="radio" name="shippingCost" value="flat" checked>
+                                    Flat Rate</label>
+                                <label class="form-check"><input type="radio" name="shippingCost" value="calculated">
+                                    Calculated</label>
+                            </div>
+                            <div class="input-with-prefix" style="max-width: 200px; margin-top: 0.75rem;">
+                                <span class="input-prefix">$</span>
+                                <input type="number" class="form-input" placeholder="15.00" value="15">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Handling Time</label>
+                            <select class="form-input form-select" style="max-width: 200px;">
+                                <option>Same business day</option>
+                                <option selected>1 business day</option>
+                                <option>2 business days</option>
+                                <option>3 business days</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Return Policy</label>
+                            <select class="form-input form-select">
+                                <option>30-day returns accepted</option>
+                                <option>14-day returns accepted</option>
+                                <option>No returns</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5: Review -->
+                <div class="form-step" data-step="5">
+                    <div class="step-card">
+                        <h2>Review & Publish</h2>
+                        <div class="review-preview">
+                            <div class="preview-image">
+                                <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=300&h=225&fit=crop"
+                                    alt="Preview">
+                            </div>
+                            <div class="preview-details">
+                                <h3>Vintage Canon AE-1 Camera</h3>
+                                <p class="text-secondary">Category: Electronics > Cameras</p>
+                                <div class="preview-meta">
+                                    <span>Starting Bid: <strong>$500</strong></span>
+                                    <span>Duration: <strong>7 days</strong></span>
+                                    <span>Condition: <strong>Excellent</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-checklist">
+                            <h4>Pre-Publish Checklist</h4>
+                            <label class="form-check"><input type="checkbox"> I have described the item
+                                accurately</label>
+                            <label class="form-check"><input type="checkbox"> Photos are clear and show actual
+                                item</label>
+                            <label class="form-check"><input type="checkbox" required> I agree to the <a href="#">Terms
+                                    of Service</a> and <a href="#">Seller Policies</a></label>
+                        </div>
+                        <div class="fee-summary">
+                            <h4>Fee Summary</h4>
+                            <div class="fee-row"><span>Listing Fee</span><span>$0.35</span></div>
+                            <div class="fee-row"><span>Featured Listing</span><span>Free</span></div>
+                            <div class="fee-row total"><span>Total Due Now</span><span>$0.35</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="form-actions">
+                    <button type="button" class="btn btn-ghost" id="prevBtn" style="display: none;">← Previous</button>
+                    <button type="button" class="btn btn-ghost" id="saveDraftBtn">Save Draft</button>
+                    <button type="button" class="btn btn-primary" id="nextBtn">Next Step →</button>
+                    <button type="submit" class="btn btn-orange" id="publishBtn" style="display: none;">🚀 Publish
+                        Auction</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="../scripts/app.js"></script>
+    <script src="../scripts/components.js"></script>
+    <script src="../scripts/create-auction.js"></script>
+</body>
+
+</html>

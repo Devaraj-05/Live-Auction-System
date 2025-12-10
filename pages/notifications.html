@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - AuctionHub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/components.css">
+    <link rel="stylesheet" href="../styles/responsive.css">
+    <link rel="stylesheet" href="../styles/pages/notifications.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="header-nav">
+                <a href="../index.html" class="header-logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <rect width="32" height="32" rx="8" fill="#1A73E8" />
+                        <path d="M8 22L16 10L24 22H8Z" fill="white" />
+                    </svg>
+                    <span>AuctionHub</span>
+                </a>
+                <div class="header-actions">
+                    <a href="browse.html" class="header-link hide-mobile">Browse</a>
+                    <a href="dashboard.html" class="header-link hide-mobile">Dashboard</a>
+                    <div class="dropdown"><button class="header-user-btn"><img
+                                src="https://api.dicebear.com/7.x/avataaars/svg?seed=John" alt="User"
+                                class="avatar avatar-sm"></button></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="notifications-page">
+        <div class="container">
+            <div class="notifications-header">
+                <h1>Notifications</h1>
+                <div class="notifications-actions">
+                    <button class="btn btn-ghost btn-sm">Mark All Read</button>
+                    <button class="btn btn-ghost btn-sm">Settings</button>
+                </div>
+            </div>
+
+            <div class="notifications-tabs">
+                <button class="notif-tab active">All</button>
+                <button class="notif-tab">Bids <span class="notif-badge">3</span></button>
+                <button class="notif-tab">Messages <span class="notif-badge">2</span></button>
+                <button class="notif-tab">Activity</button>
+            </div>
+
+            <div class="notifications-list">
+                <div class="notification-group">
+                    <h4>Today</h4>
+                    <div class="notification-item unread">
+                        <div class="notif-icon outbid">⚠️</div>
+                        <div class="notif-content">
+                            <p><strong>You've been outbid!</strong> on Rolex Submariner Watch 1985</p>
+                            <span class="notif-meta">Current bid: $8,500 · Your bid: $8,200</span>
+                            <span class="notif-time">2 minutes ago</span>
+                        </div>
+                        <a href="auction.html" class="btn btn-orange btn-sm">Bid Now</a>
+                    </div>
+                    <div class="notification-item unread">
+                        <div class="notif-icon message">💬</div>
+                        <div class="notif-content">
+                            <p><strong>New message</strong> from camera_collector</p>
+                            <span class="notif-meta">"Thanks for your interest! Yes, the camera is still..."</span>
+                            <span class="notif-time">15 minutes ago</span>
+                        </div>
+                        <a href="messages.html" class="btn btn-outline btn-sm">View</a>
+                    </div>
+                    <div class="notification-item unread">
+                        <div class="notif-icon winning">🎉</div>
+                        <div class="notif-content">
+                            <p><strong>You're winning!</strong> on Vintage Canon AE-1 Camera</p>
+                            <span class="notif-meta">Your bid: $1,250 · Ends in 2d 14h</span>
+                            <span class="notif-time">1 hour ago</span>
+                        </div>
+                        <a href="auction.html" class="btn btn-outline btn-sm">View</a>
+                    </div>
+                </div>
+
+                <div class="notification-group">
+                    <h4>Yesterday</h4>
+                    <div class="notification-item">
+                        <div class="notif-icon ending">⏰</div>
+                        <div class="notif-content">
+                            <p><strong>Ending soon!</strong> Nike Air Jordan 1 Retro OG ends in 1 hour</p>
+                            <span class="notif-meta">Current bid: $890 · 34 bids</span>
+                            <span class="notif-time">Yesterday, 3:45 PM</span>
+                        </div>
+                        <a href="auction.html" class="btn btn-outline btn-sm">View</a>
+                    </div>
+                    <div class="notification-item">
+                        <div class="notif-icon success">✅</div>
+                        <div class="notif-content">
+                            <p><strong>Payment received</strong> for Vintage Omega Seamaster</p>
+                            <span class="notif-meta">Amount: $2,100 · Order #12345</span>
+                            <span class="notif-time">Yesterday, 11:20 AM</span>
+                        </div>
+                        <a href="dashboard.html" class="btn btn-outline btn-sm">View Order</a>
+                    </div>
+                    <div class="notification-item">
+                        <div class="notif-icon shipped">📦</div>
+                        <div class="notif-content">
+                            <p><strong>Item shipped!</strong> Bose QuietComfort Headphones is on its way</p>
+                            <span class="notif-meta">Tracking: 1Z999AA10123456784</span>
+                            <span class="notif-time">Yesterday, 9:15 AM</span>
+                        </div>
+                        <button class="btn btn-outline btn-sm">Track</button>
+                    </div>
+                </div>
+
+                <div class="notification-group">
+                    <h4>This Week</h4>
+                    <div class="notification-item">
+                        <div class="notif-icon review">⭐</div>
+                        <div class="notif-content">
+                            <p><strong>Leave a review</strong> for your purchase from tech_deals</p>
+                            <span class="notif-meta">MacBook Pro M3 Max 16"</span>
+                            <span class="notif-time">2 days ago</span>
+                        </div>
+                        <button class="btn btn-outline btn-sm">Review</button>
+                    </div>
+                    <div class="notification-item">
+                        <div class="notif-icon price">💰</div>
+                        <div class="notif-content">
+                            <p><strong>Price drop!</strong> A watched item dropped in price</p>
+                            <span class="notif-meta">Vintage Leather Jacket now $340 (was $450)</span>
+                            <span class="notif-time">3 days ago</span>
+                        </div>
+                        <a href="auction.html" class="btn btn-outline btn-sm">View</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="load-more">
+                <button class="btn btn-ghost">Load More Notifications</button>
+            </div>
+        </div>
+    </main>
+
+    <div class="toast-container" id="toastContainer"></div>
+    <script src="../scripts/app.js"></script>
+    <script src="../scripts/components.js"></script>
+    <script>
+        document.querySelectorAll('.notif-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.notif-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+    </script>
+</body>
+
+</html>

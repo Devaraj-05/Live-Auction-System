@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Search - AuctionHub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/components.css">
+    <link rel="stylesheet" href="../styles/responsive.css">
+    <link rel="stylesheet" href="../styles/pages/browse.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="header-nav">
+                <a href="../index.html" class="header-logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <rect width="32" height="32" rx="8" fill="#1A73E8" />
+                        <path d="M8 22L16 10L24 22H8Z" fill="white" />
+                    </svg>
+                    <span>AuctionHub</span>
+                </a>
+                <div class="header-actions">
+                    <a href="browse.html" class="header-link hide-mobile">Browse</a>
+                    <a href="dashboard.html" class="header-link hide-mobile">Dashboard</a>
+                    <div class="dropdown"><button class="header-user-btn"><img
+                                src="https://api.dicebear.com/7.x/avataaars/svg?seed=John" alt="User"
+                                class="avatar avatar-sm"></button></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="search-page browse-page">
+        <div class="container">
+            <div class="search-hero">
+                <h1>Advanced Search</h1>
+                <p class="text-secondary">Find exactly what you're looking for</p>
+                <div class="search-bar-large">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="m21 21-4.35-4.35" />
+                    </svg>
+                    <input type="text" class="form-input" placeholder="Search for items, categories, or sellers..."
+                        id="searchQuery">
+                    <button class="btn btn-primary">Search</button>
+                </div>
+            </div>
+
+            <div class="advanced-filters">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label class="form-label">Search in</label>
+                        <div class="checkbox-group">
+                            <label class="form-check"><input type="checkbox" checked> Title</label>
+                            <label class="form-check"><input type="checkbox" checked> Description</label>
+                            <label class="form-check"><input type="checkbox"> Seller Name</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label class="form-label">Category</label>
+                        <select class="form-input form-select">
+                            <option value="">All Categories</option>
+                            <option>Electronics</option>
+                            <option>Fashion</option>
+                            <option>Collectibles</option>
+                            <option>Art</option>
+                            <option>Jewelry</option>
+                            <option>Vehicles</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="form-label">Condition</label>
+                        <select class="form-input form-select">
+                            <option value="">Any</option>
+                            <option>New</option>
+                            <option>Like New</option>
+                            <option>Used - Excellent</option>
+                            <option>Used - Good</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="form-label">Auction Type</label>
+                        <select class="form-input form-select">
+                            <option value="">All</option>
+                            <option>Standard Auction</option>
+                            <option>Buy Now Only</option>
+                            <option>Auction + Buy Now</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label class="form-label">Price Range</label>
+                        <div class="price-inputs">
+                            <input type="number" class="form-input" placeholder="Min">
+                            <span>to</span>
+                            <input type="number" class="form-input" placeholder="Max">
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <label class="form-label">Time Remaining</label>
+                        <select class="form-input form-select">
+                            <option value="">Any</option>
+                            <option>Ending in 1 hour</option>
+                            <option>Ending today</option>
+                            <option>Ending this week</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="form-label">Location</label>
+                        <input type="text" class="form-input" placeholder="City, State, or Country">
+                    </div>
+                </div>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label class="form-label">Seller Rating</label>
+                        <select class="form-input form-select">
+                            <option value="">Any</option>
+                            <option>⭐⭐⭐⭐⭐ 5 Stars</option>
+                            <option>⭐⭐⭐⭐ 4+ Stars</option>
+                            <option>⭐⭐⭐ 3+ Stars</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="form-label">Shipping</label>
+                        <div class="checkbox-group">
+                            <label class="form-check"><input type="checkbox"> Free Shipping</label>
+                            <label class="form-check"><input type="checkbox"> Local Pickup</label>
+                            <label class="form-check"><input type="checkbox"> International</label>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <label class="form-label">Additional Options</label>
+                        <div class="checkbox-group">
+                            <label class="form-check"><input type="checkbox"> Reserve not met</label>
+                            <label class="form-check"><input type="checkbox"> Accepts offers</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="saved-searches">
+                <h3>Saved Searches</h3>
+                <div class="saved-search-list">
+                    <div class="saved-search-item">
+                        <div class="saved-search-info">
+                            <strong>Vintage Cameras</strong>
+                            <span class="text-muted">Electronics · $100-$500 · Free Shipping</span>
+                        </div>
+                        <div class="saved-search-actions">
+                            <label class="form-check"><input type="checkbox" checked> Email Alerts</label>
+                            <button class="btn btn-sm btn-ghost">🔍 Run</button>
+                            <button class="btn btn-sm btn-ghost">🗑️</button>
+                        </div>
+                    </div>
+                    <div class="saved-search-item">
+                        <div class="saved-search-info">
+                            <strong>Nike Jordan Sneakers</strong>
+                            <span class="text-muted">Fashion · Size 10 · New</span>
+                        </div>
+                        <div class="saved-search-actions">
+                            <label class="form-check"><input type="checkbox"> Email Alerts</label>
+                            <button class="btn btn-sm btn-ghost">🔍 Run</button>
+                            <button class="btn btn-sm btn-ghost">🗑️</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-outline btn-sm">+ Save Current Search</button>
+            </div>
+        </div>
+    </main>
+
+    <div class="toast-container" id="toastContainer"></div>
+    <script src="../scripts/app.js"></script>
+    <script src="../scripts/components.js"></script>
+</body>
+
+</html>

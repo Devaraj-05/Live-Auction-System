@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Live Auction System - Bid, Win, and Sell in Real-Time">
+  <title>AuctionHub - Live Auctions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/responsive.css">
+  <link rel="stylesheet" href="styles/pages/home.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="container">
+      <nav class="header-nav">
+        <a href="index.html" class="header-logo">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <rect width="32" height="32" rx="8" fill="#1A73E8"/>
+            <path d="M8 22L16 10L24 22H8Z" fill="white"/>
+          </svg>
+          <span>AuctionHub</span>
+        </a>
+        
+        <div class="header-search hide-mobile">
+          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input type="text" placeholder="Search auctions..." class="search-input" id="searchInput">
+          <select class="search-category">
+            <option>All Categories</option>
+            <option>Electronics</option>
+            <option>Fashion</option>
+            <option>Collectibles</option>
+            <option>Art</option>
+            <option>Vehicles</option>
+          </select>
+        </div>
+        
+        <div class="header-actions">
+          <a href="pages/browse.html" class="header-link hide-mobile">Browse</a>
+          
+          <button class="header-icon-btn relative" id="notificationBtn" aria-label="Notifications">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            <span class="notification-badge">5</span>
+          </button>
+          
+          <button class="header-icon-btn relative hide-mobile" id="cartBtn" aria-label="Cart">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
+            <span class="notification-badge">2</span>
+          </button>
+          
+          <div class="dropdown" id="userDropdown">
+            <button class="header-user-btn" id="userMenuBtn">
+              <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=John" alt="User" class="avatar avatar-sm">
+              <span class="hide-mobile">John Doe</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <div class="dropdown-menu" id="userMenu">
+              <a href="pages/dashboard.html" class="dropdown-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                  <circle cx="12" cy="7" r="4"/>
+                </svg>
+                My Dashboard
+              </a>
+              <a href="pages/dashboard.html#bids" class="dropdown-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                </svg>
+                My Bids
+              </a>
+              <a href="pages/dashboard.html#selling" class="dropdown-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                </svg>
+                My Auctions
+              </a>
+              <a href="pages/profile.html" class="dropdown-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                </svg>
+                Settings
+              </a>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item text-error" id="logoutBtn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                  <polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+                Logout
+              </button>
+            </div>
+          </div>
+          
+          <button class="hamburger-btn hide-desktop" id="hamburgerBtn" aria-label="Menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-carousel" id="heroCarousel">
+      <div class="hero-slide active" data-slide="0">
+        <div class="hero-content">
+          <span class="hero-badge">🔥 Featured Auction</span>
+          <h1>Vintage Canon AE-1 Camera</h1>
+          <p class="hero-description">Pristine condition, original case included. A collector's dream!</p>
+          <div class="hero-bid-info">
+            <div class="hero-current-bid">
+              <span class="label">Current Bid</span>
+              <span class="value">$1,250</span>
+            </div>
+            <div class="hero-timer">
+              <span class="label">Ends In</span>
+              <div class="countdown" data-end="2025-12-12T18:00:00">
+                <div class="countdown-item"><span class="countdown-value" id="hero-days">02</span><span class="countdown-label">Days</span></div>
+                <div class="countdown-item"><span class="countdown-value" id="hero-hours">14</span><span class="countdown-label">Hours</span></div>
+                <div class="countdown-item"><span class="countdown-value" id="hero-mins">32</span><span class="countdown-label">Mins</span></div>
+                <div class="countdown-item"><span class="countdown-value" id="hero-secs">45</span><span class="countdown-label">Secs</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="hero-actions">
+            <a href="pages/auction.html" class="btn btn-orange btn-lg">Place Bid Now</a>
+            <a href="pages/browse.html" class="btn btn-outline btn-lg">Browse All</a>
+          </div>
+        </div>
+        <div class="hero-image">
+          <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=600&h=400&fit=crop" alt="Vintage Camera">
+        </div>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-value">2,458</span>
+        <span class="hero-stat-label">Live Auctions</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-value">15,892</span>
+        <span class="hero-stat-label">Active Bidders</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-value">$8.2M</span>
+        <span class="hero-stat-label">Items Sold</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Auctions -->
+  <section class="section featured-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Featured Auctions</h2>
+        <a href="pages/browse.html" class="btn btn-ghost">View All →</a>
+      </div>
+      <div class="auction-grid" id="featuredAuctions">
+        <!-- Auction cards will be injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="section categories-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Browse Categories</h2>
+      </div>
+      <div class="categories-grid" id="categoriesGrid">
+        <!-- Categories will be injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="section how-it-works-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <h2>How It Works</h2>
+        <p class="text-secondary">Start bidding in just a few simple steps</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <span class="step-number">01</span>
+          <h4>Create Account</h4>
+          <p>Sign up for free and verify your email to start bidding</p>
+        </div>
+        <div class="step-card">
+          <div class="step-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+          </div>
+          <span class="step-number">02</span>
+          <h4>Find Items</h4>
+          <p>Browse thousands of auctions across various categories</p>
+        </div>
+        <div class="step-card">
+          <div class="step-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+            </svg>
+          </div>
+          <span class="step-number">03</span>
+          <h4>Place Bids</h4>
+          <p>Bid in real-time and track your auctions live</p>
+        </div>
+        <div class="step-card">
+          <div class="step-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <span class="step-number">04</span>
+          <h4>Win & Pay</h4>
+          <p>Secure checkout with buyer protection guarantee</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ending Soon -->
+  <section class="section ending-soon-section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2>⏰ Ending Soon</h2>
+          <p class="text-secondary">Don't miss these auctions closing in the next hour</p>
+        </div>
+        <a href="pages/browse.html?filter=ending" class="btn btn-ghost">View All →</a>
+      </div>
+      <div class="auction-grid" id="endingSoonAuctions">
+        <!-- Ending soon auctions will be injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="footer-logo">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <rect width="32" height="32" rx="8" fill="#1A73E8"/>
+              <path d="M8 22L16 10L24 22H8Z" fill="white"/>
+            </svg>
+            <span>AuctionHub</span>
+          </a>
+          <p>The trusted platform for live auctions. Buy and sell with confidence.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+            <a href="#" aria-label="Twitter"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
+            <a href="#" aria-label="Instagram"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h5>Quick Links</h5>
+          <ul>
+            <li><a href="pages/browse.html">Browse Auctions</a></li>
+            <li><a href="pages/create-auction.html">Sell an Item</a></li>
+            <li><a href="#">How It Works</a></li>
+            <li><a href="#">Pricing</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h5>Support</h5>
+          <ul>
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Buyer Protection</a></li>
+            <li><a href="#">Seller Guide</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h5>Legal</h5>
+          <ul>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+            <li><a href="#">Fees & Payments</a></li>
+          </ul>
+        </div>
+        <div class="footer-newsletter">
+          <h5>Stay Updated</h5>
+          <p>Get the latest auctions and deals in your inbox</p>
+          <form class="newsletter-form" id="newsletterForm">
+            <input type="email" placeholder="Enter your email" class="form-input">
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+          </form>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 AuctionHub. All rights reserved.</p>
+        <div class="footer-badges">
+          <span class="trust-badge">🔒 Secure Payments</span>
+          <span class="trust-badge">✓ Verified Sellers</span>
+          <span class="trust-badge">🛡️ Buyer Protection</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile Navigation -->
+  <nav class="mobile-nav hide-desktop">
+    <a href="index.html" class="mobile-nav-item active">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      Home
+    </a>
+    <a href="pages/browse.html" class="mobile-nav-item">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      Search
+    </a>
+    <a href="pages/create-auction.html" class="mobile-nav-item">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
+      </svg>
+      Sell
+    </a>
+    <a href="pages/messages.html" class="mobile-nav-item">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+      Messages
+    </a>
+    <a href="pages/dashboard.html" class="mobile-nav-item">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+      </svg>
+      Profile
+    </a>
+  </nav>
+
+  <!-- Auth Modal -->
+  <div class="modal-backdrop" id="authModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="authModalTitle">Sign In</h3>
+        <button class="modal-close" id="closeAuthModal" aria-label="Close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Login Form -->
+        <form id="loginForm" class="auth-form">
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <div class="form-input-icon">
+              <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+              <input type="email" class="form-input" placeholder="Enter your email" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <div class="form-input-icon">
+              <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <input type="password" class="form-input" placeholder="Enter your password" required>
+            </div>
+          </div>
+          <div class="form-row d-flex justify-between align-center">
+            <label class="form-check">
+              <input type="checkbox"> Remember me
+            </label>
+            <a href="#" class="text-sm">Forgot Password?</a>
+          </div>
+          <button type="submit" class="btn btn-primary w-full">Sign In</button>
+        </form>
+        <div class="auth-divider"><span>or continue with</span></div>
+        <div class="social-login">
+          <button class="btn btn-outline w-full">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Google
+          </button>
+        </div>
+        <p class="auth-footer text-center mt-4">
+          Don't have an account? <a href="#" id="showRegister">Sign Up</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="scripts/app.js"></script>
+  <script src="scripts/components.js"></script>
+</body>
+</html>

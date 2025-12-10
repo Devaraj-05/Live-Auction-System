@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Settings - AuctionHub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/components.css">
+    <link rel="stylesheet" href="../styles/responsive.css">
+    <link rel="stylesheet" href="../styles/pages/profile.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="header-nav">
+                <a href="../index.html" class="header-logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <rect width="32" height="32" rx="8" fill="#1A73E8" />
+                        <path d="M8 22L16 10L24 22H8Z" fill="white" />
+                    </svg>
+                    <span>AuctionHub</span>
+                </a>
+                <div class="header-actions">
+                    <a href="browse.html" class="header-link hide-mobile">Browse</a>
+                    <a href="dashboard.html" class="header-link hide-mobile">Dashboard</a>
+                    <div class="dropdown"><button class="header-user-btn"><img
+                                src="https://api.dicebear.com/7.x/avataaars/svg?seed=John" alt="User"
+                                class="avatar avatar-sm"><span class="hide-mobile">John</span></button></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="profile-page">
+        <div class="container">
+            <div class="profile-layout">
+                <!-- Sidebar -->
+                <aside class="profile-sidebar">
+                    <div class="profile-card">
+                        <div class="profile-avatar">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=John" alt="John Doe">
+                            <button class="avatar-edit">📷</button>
+                        </div>
+                        <h3>John Doe</h3>
+                        <p class="text-muted">@johndoe</p>
+                        <div class="profile-rating">⭐⭐⭐⭐⭐ 4.9 (156 reviews)</div>
+                        <span class="member-since">Member since Jan 2024</span>
+                    </div>
+                    <nav class="profile-nav">
+                        <a href="#profile" class="profile-nav-item active" data-tab="profile">👤 Public Profile</a>
+                        <a href="#account" class="profile-nav-item" data-tab="account">⚙️ Account Settings</a>
+                        <a href="#payment" class="profile-nav-item" data-tab="payment">💳 Payment Methods</a>
+                        <a href="#addresses" class="profile-nav-item" data-tab="addresses">📦 Shipping Addresses</a>
+                        <a href="#privacy" class="profile-nav-item" data-tab="privacy">🔒 Privacy</a>
+                        <a href="#preferences" class="profile-nav-item" data-tab="preferences">🎨 Preferences</a>
+                    </nav>
+                </aside>
+
+                <!-- Main Content -->
+                <div class="profile-main">
+                    <!-- Public Profile -->
+                    <div class="profile-section active" id="profile">
+                        <h2>Public Profile</h2>
+                        <p class="text-secondary mb-4">This information will be displayed on your public profile.</p>
+                        <div class="form-group">
+                            <label class="form-label">Display Name</label>
+                            <input type="text" class="form-input" value="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Username</label>
+                            <input type="text" class="form-input" value="johndoe">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Bio</label>
+                            <textarea class="form-input" rows="4"
+                                placeholder="Tell others about yourself...">Vintage camera collector and tech enthusiast. Based in New York.</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Location</label>
+                            <input type="text" class="form-input" value="New York, USA">
+                        </div>
+                        <button class="btn btn-primary">Save Changes</button>
+                    </div>
+
+                    <!-- Account Settings -->
+                    <div class="profile-section" id="account">
+                        <h2>Account Settings</h2>
+                        <div class="settings-card">
+                            <h4>Email Address</h4>
+                            <p class="text-secondary">john.doe@example.com</p>
+                            <button class="btn btn-sm btn-outline">Change Email</button>
+                        </div>
+                        <div class="settings-card">
+                            <h4>Password</h4>
+                            <p class="text-secondary">Last changed 3 months ago</p>
+                            <button class="btn btn-sm btn-outline">Change Password</button>
+                        </div>
+                        <div class="settings-card">
+                            <h4>Two-Factor Authentication</h4>
+                            <p class="text-secondary">Add an extra layer of security</p>
+                            <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+                        </div>
+                        <div class="settings-card danger">
+                            <h4>Delete Account</h4>
+                            <p class="text-secondary">Permanently delete your account and all data</p>
+                            <button class="btn btn-sm btn-outline text-error">Delete Account</button>
+                        </div>
+                    </div>
+
+                    <!-- Payment Methods -->
+                    <div class="profile-section" id="payment">
+                        <h2>Payment Methods</h2>
+                        <div class="payment-list">
+                            <div class="payment-item">
+                                <div class="payment-icon">💳</div>
+                                <div class="payment-info">
+                                    <span>Visa ending in 4242</span>
+                                    <span class="text-muted">Expires 12/2026</span>
+                                </div>
+                                <span class="badge badge-new">Default</span>
+                                <button class="btn btn-sm btn-ghost">Edit</button>
+                            </div>
+                            <div class="payment-item">
+                                <div class="payment-icon">PayPal</div>
+                                <div class="payment-info"><span>john.doe@example.com</span></div>
+                                <button class="btn btn-sm btn-ghost">Remove</button>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline">+ Add Payment Method</button>
+                    </div>
+
+                    <!-- Shipping Addresses -->
+                    <div class="profile-section" id="addresses">
+                        <h2>Shipping Addresses</h2>
+                        <div class="address-list">
+                            <div class="address-card">
+                                <div class="address-header"><strong>Home</strong><span
+                                        class="badge badge-new">Default</span></div>
+                                <p>John Doe<br>123 Main Street, Apt 4B<br>New York, NY 10001<br>United States</p>
+                                <div class="address-actions">
+                                    <button class="btn btn-sm btn-ghost">Edit</button>
+                                    <button class="btn btn-sm btn-ghost">Remove</button>
+                                </div>
+                            </div>
+                            <div class="address-card">
+                                <div class="address-header"><strong>Work</strong></div>
+                                <p>John Doe<br>456 Business Ave, Floor 5<br>New York, NY 10002<br>United States</p>
+                                <div class="address-actions">
+                                    <button class="btn btn-sm btn-ghost">Edit</button>
+                                    <button class="btn btn-sm btn-ghost">Set Default</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline">+ Add Address</button>
+                    </div>
+
+                    <!-- Privacy Settings -->
+                    <div class="profile-section" id="privacy">
+                        <h2>Privacy Settings</h2>
+                        <div class="privacy-option">
+                            <div><strong>Profile Visibility</strong>
+                                <p class="text-muted">Who can see your profile</p>
+                            </div>
+                            <select class="form-input" style="width: auto;">
+                                <option>Everyone</option>
+                                <option>Registered Users</option>
+                                <option>Private</option>
+                            </select>
+                        </div>
+                        <div class="privacy-option">
+                            <div><strong>Show Bid History</strong>
+                                <p class="text-muted">Allow others to see your bidding activity</p>
+                            </div>
+                            <label class="toggle"><input type="checkbox" checked><span
+                                    class="toggle-slider"></span></label>
+                        </div>
+                        <div class="privacy-option">
+                            <div><strong>Show Watchlist</strong>
+                                <p class="text-muted">Allow others to see items you're watching</p>
+                            </div>
+                            <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+                        </div>
+                    </div>
+
+                    <!-- Preferences -->
+                    <div class="profile-section" id="preferences">
+                        <h2>Preferences</h2>
+                        <div class="preference-option">
+                            <div><strong>Theme</strong>
+                                <p class="text-muted">Choose your preferred theme</p>
+                            </div>
+                            <select class="form-input" style="width: auto;">
+                                <option>Light</option>
+                                <option>Dark</option>
+                                <option>System</option>
+                            </select>
+                        </div>
+                        <div class="preference-option">
+                            <div><strong>Language</strong>
+                                <p class="text-muted">Select your language</p>
+                            </div>
+                            <select class="form-input" style="width: auto;">
+                                <option>English (US)</option>
+                                <option>Spanish</option>
+                                <option>French</option>
+                            </select>
+                        </div>
+                        <div class="preference-option">
+                            <div><strong>Currency</strong>
+                                <p class="text-muted">Display prices in</p>
+                            </div>
+                            <select class="form-input" style="width: auto;">
+                                <option>USD ($)</option>
+                                <option>EUR (€)</option>
+                                <option>GBP (£)</option>
+                            </select>
+                        </div>
+                        <div class="preference-option">
+                            <div><strong>Email Notifications</strong>
+                                <p class="text-muted">Manage email frequency</p>
+                            </div>
+                            <select class="form-input" style="width: auto;">
+                                <option>All Notifications</option>
+                                <option>Important Only</option>
+                                <option>None</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="toast-container" id="toastContainer"></div>
+    <script src="../scripts/app.js"></script>
+    <script src="../scripts/components.js"></script>
+    <script>
+        document.querySelectorAll('.profile-nav-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('.profile-nav-item').forEach(i => i.classList.remove('active'));
+                document.querySelectorAll('.profile-section').forEach(s => s.classList.remove('active'));
+                item.classList.add('active');
+                document.getElementById(item.dataset.tab)?.classList.add('active');
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard - AuctionHub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/components.css">
+    <link rel="stylesheet" href="../styles/responsive.css">
+    <link rel="stylesheet" href="../styles/pages/dashboard.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="header-nav">
+                <a href="../index.html" class="header-logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <rect width="32" height="32" rx="8" fill="#1A73E8" />
+                        <path d="M8 22L16 10L24 22H8Z" fill="white" />
+                    </svg>
+                    <span>AuctionHub</span>
+                </a>
+                <div class="header-actions">
+                    <a href="browse.html" class="header-link hide-mobile">Browse</a>
+                    <button class="header-icon-btn relative"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                        </svg><span class="notification-badge">5</span></button>
+                    <div class="dropdown"><button class="header-user-btn"><img
+                                src="https://api.dicebear.com/7.x/avataaars/svg?seed=John" alt="User"
+                                class="avatar avatar-sm"><span class="hide-mobile">John</span></button></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="dashboard-page">
+        <div class="container">
+            <!-- Dashboard Header -->
+            <div class="dashboard-header">
+                <div class="user-welcome">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=John" alt="John Doe"
+                        class="avatar avatar-xl">
+                    <div>
+                        <h1>Welcome back, John!</h1>
+                        <p class="text-secondary">Member since January 2024</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <a href="create-auction.html" class="btn btn-primary">+ Create Auction</a>
+                    <a href="profile.html" class="btn btn-outline">Edit Profile</a>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+                        </svg></div>
+                    <div class="stat-content"><span class="stat-value">12</span><span class="stat-label">Active
+                            Bids</span></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                            <polyline points="22 4 12 14.01 9 11.01" />
+                        </svg></div>
+                    <div class="stat-content"><span class="stat-value">7</span><span class="stat-label">Winning</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon orange"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                        </svg></div>
+                    <div class="stat-content"><span class="stat-value">24</span><span
+                            class="stat-label">Watchlist</span></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon purple"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                        </svg></div>
+                    <div class="stat-content"><span class="stat-value">8</span><span class="stat-label">Selling</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Tabs -->
+            <div class="dashboard-tabs">
+                <div class="tabs" id="dashboardTabs">
+                    <button class="tab active" data-tab="active-bids">Active Bids</button>
+                    <button class="tab" data-tab="watchlist">Watchlist</button>
+                    <button class="tab" data-tab="won">Won</button>
+                    <button class="tab" data-tab="lost">Lost</button>
+                    <button class="tab" data-tab="selling">Selling</button>
+                </div>
+
+                <!-- Active Bids Tab -->
+                <div class="tab-content active" id="active-bids">
+                    <div class="tab-header">
+                        <div class="filter-pills">
+                            <button class="filter-pill active">All (12)</button>
+                            <button class="filter-pill">Winning (7)</button>
+                            <button class="filter-pill">Outbid (5)</button>
+                        </div>
+                        <select class="form-input" style="width: auto;">
+                            <option>Ending Soonest</option>
+                            <option>Highest Bid</option>
+                            <option>Recently Added</option>
+                        </select>
+                    </div>
+
+                    <div class="bids-list">
+                        <div class="bid-item winning">
+                            <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=100&h=75&fit=crop"
+                                alt="">
+                            <div class="bid-item-info">
+                                <h4>Vintage Canon AE-1 Camera</h4>
+                                <div class="bid-item-meta">
+                                    <span>Your bid: <strong>$1,250</strong></span>
+                                    <span>Current: <strong class="text-success">$1,250</strong></span>
+                                </div>
+                            </div>
+                            <div class="bid-item-status">
+                                <span class="status-badge winning">✓ Winning</span>
+                                <span class="bid-time">⏰ 2d 14h left</span>
+                            </div>
+                            <div class="bid-item-actions">
+                                <button class="btn btn-sm btn-outline">Increase Bid</button>
+                                <button class="btn btn-sm btn-ghost">View</button>
+                            </div>
+                        </div>
+
+                        <div class="bid-item outbid">
+                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=100&h=75&fit=crop"
+                                alt="">
+                            <div class="bid-item-info">
+                                <h4>Rolex Submariner Watch 1985</h4>
+                                <div class="bid-item-meta">
+                                    <span>Your bid: <strong>$8,200</strong></span>
+                                    <span>Current: <strong class="text-error">$8,500</strong></span>
+                                </div>
+                            </div>
+                            <div class="bid-item-status">
+                                <span class="status-badge outbid">✗ Outbid</span>
+                                <span class="bid-time">⏰ 1d 2h left</span>
+                            </div>
+                            <div class="bid-item-actions">
+                                <button class="btn btn-sm btn-orange">Bid Now</button>
+                                <button class="btn btn-sm btn-ghost">View</button>
+                            </div>
+                        </div>
+
+                        <div class="bid-item winning">
+                            <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=100&h=75&fit=crop"
+                                alt="">
+                            <div class="bid-item-info">
+                                <h4>MacBook Pro M3 Max 16"</h4>
+                                <div class="bid-item-meta">
+                                    <span>Your bid: <strong>$2,450</strong></span>
+                                    <span>Current: <strong class="text-success">$2,450</strong></span>
+                                </div>
+                            </div>
+                            <div class="bid-item-status">
+                                <span class="status-badge winning">✓ Winning</span>
+                                <span class="bid-time">⏰ 3d 8h left</span>
+                            </div>
+                            <div class="bid-item-actions">
+                                <button class="btn btn-sm btn-outline">Increase Bid</button>
+                                <button class="btn btn-sm btn-ghost">View</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Watchlist Tab -->
+                <div class="tab-content" id="watchlist">
+                    <div class="tab-header">
+                        <p>You're watching <strong>24 items</strong></p>
+                    </div>
+                    <div class="auction-grid">
+                        <div class="auction-card">
+                            <div class="auction-card-image">
+                                <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=300&fit=crop"
+                                    alt="">
+                                <button class="auction-card-watch active"><svg width="18" height="18"
+                                        viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                                        <path
+                                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                                    </svg></button>
+                            </div>
+                            <div class="auction-card-content">
+                                <h3 class="auction-card-title">Vintage Leather Jacket 1970s</h3>
+                                <div class="auction-card-price">$340</div>
+                                <div class="auction-card-timer"><svg width="14" height="14" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <polyline points="12 6 12 12 16 14" />
+                                    </svg><span>4h 30m left</span></div>
+                            </div>
+                        </div>
+                        <div class="auction-card">
+                            <div class="auction-card-image">
+                                <img src="https://images.unsplash.com/photo-1556906781-9a412961c28c?w=400&h=300&fit=crop"
+                                    alt="">
+                                <button class="auction-card-watch active"><svg width="18" height="18"
+                                        viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                                        <path
+                                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                                    </svg></button>
+                            </div>
+                            <div class="auction-card-content">
+                                <h3 class="auction-card-title">Nike Air Jordan 1 Retro OG</h3>
+                                <div class="auction-card-price">$890</div>
+                                <div class="auction-card-timer ending-soon"><svg width="14" height="14"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <polyline points="12 6 12 12 16 14" />
+                                    </svg><span>45m left</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Won Tab -->
+                <div class="tab-content" id="won">
+                    <div class="won-list">
+                        <div class="won-item">
+                            <img src="https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?w=100&h=75&fit=crop"
+                                alt="">
+                            <div class="won-item-info">
+                                <h4>Vintage Omega Seamaster</h4>
+                                <p>Won for <strong>$2,100</strong> on Dec 5, 2025</p>
+                            </div>
+                            <div class="won-item-status">
+                                <span class="status-badge paid">✓ Paid</span>
+                                <span class="shipping-status">📦 Shipped</span>
+                            </div>
+                            <div class="won-item-actions">
+                                <button class="btn btn-sm btn-primary">Track</button>
+                                <button class="btn btn-sm btn-ghost">Contact</button>
+                            </div>
+                        </div>
+                        <div class="won-item">
+                            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100&h=75&fit=crop"
+                                alt="">
+                            <div class="won-item-info">
+                                <h4>Bose QuietComfort Headphones</h4>
+                                <p>Won for <strong>$185</strong> on Dec 3, 2025</p>
+                            </div>
+                            <div class="won-item-status">
+                                <span class="status-badge pending">⏳ Pending</span>
+                                <span class="due-date">Pay by Dec 10</span>
+                            </div>
+                            <div class="won-item-actions">
+                                <button class="btn btn-sm btn-orange">Pay Now</button>
+                                <button class="btn btn-sm btn-ghost">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lost Tab -->
+                <div class="tab-content" id="lost">
+                    <div class="lost-list">
+                        <div class="lost-item">
+                            <img src="https://images.unsplash.com/photo-1564186763535-ebb21ef5277f?w=100&h=75&fit=crop"
+                                alt="">
+                            <div class="lost-item-info">
+                                <h4>Gibson Les Paul Standard Guitar</h4>
+                                <p>Your bid: $3,100 · Won at: $3,200 (Lost by $100)</p>
+                            </div>
+                            <button class="btn btn-sm btn-outline">Find Similar</button>
+                        </div>
+                    </div>
+                    <div class="empty-state">
+                        <p>You haven't lost many auctions! 🎉</p>
+                        <p class="text-muted">Your win rate: <strong>85%</strong></p>
+                    </div>
+                </div>
+
+                <!-- Selling Tab -->
+                <div class="tab-content" id="selling">
+                    <div class="tab-header">
+                        <div class="selling-stats">
+                            <span>Active: <strong>8</strong></span>
+                            <span>Sold: <strong>45</strong></span>
+                            <span>Unsold: <strong>3</strong></span>
+                        </div>
+                        <a href="create-auction.html" class="btn btn-primary btn-sm">+ Create Auction</a>
+                    </div>
+                    <div class="selling-list">
+                        <div class="selling-item">
+                            <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=100&h=75&fit=crop"
+                                alt="">
+                            <div class="selling-item-info">
+                                <h4>Vintage Canon AE-1 Camera</h4>
+                                <div class="selling-meta">
+                                    <span>Current: <strong>$1,250</strong></span>
+                                    <span>🔨 45 bids</span>
+                                    <span>👁️ 234 views</span>
+                                    <span>❤️ 42 watchers</span>
+                                </div>
+                            </div>
+                            <div class="selling-item-status"><span class="bid-time">⏰ 2d 14h left</span></div>
+                            <div class="selling-item-actions">
+                                <button class="btn btn-sm btn-ghost">Edit</button>
+                                <button class="btn btn-sm btn-ghost">Stats</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="../scripts/app.js"></script>
+    <script src="../scripts/components.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            new Tabs('#dashboardTabs');
+
+            document.querySelectorAll('.filter-pill').forEach(pill => {
+                pill.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+                    pill.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
